@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 
 const LogIn = () => {
-  const { data, error } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -23,6 +23,7 @@ const LogIn = () => {
             withCredentials: true,
           },
         );
+        revalidate();
         console.log(result);
       } catch (error) {
         setLogInError(error.response?.data?.statusCode === 401);
@@ -32,6 +33,14 @@ const LogIn = () => {
     [email, password],
   );
 
+  if (data === undefined) {
+    return <div>로딩중...</div>;
+  }
+
+  if (data) {
+    return <Redirect to="/workspace/channel" />;
+  }
+
   // console.log(error, userData);
   // if (!error && userData) {
   //   console.log('로그인됨', userData);
@@ -40,7 +49,7 @@ const LogIn = () => {
 
   return (
     <div id="container">
-      <Header>Sleact</Header>
+      <Header>Slack_React</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>

@@ -1,22 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Error, Label, Input, LinkContainer, Button, Header } from './styles';
+import useInput from '@hooks/useInput';
 
 const SignUp = () => {
   //임시로 오류안나게 style확인을 위한 setting
-  const [email, setEmail] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
+  const [email, onChangeEmail] = useInput('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [password, , setPassword] = useInput('');
+  const [passwordCheck, , setPasswordCheck] = useInput('');
   const [mismatchError, setMismatchError] = useState(false);
-  console.log(mismatchError);
-
-  const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
-
-  const onChangeNickname = useCallback((e) => {
-    setNickname(e.target.value);
-  }, []);
 
   const onChangePassword = useCallback(
     (e) => {

@@ -50,7 +50,7 @@ const SignUp = () => {
             password,
           });
           setSignUpSuccess(true);
-          console.log(result);
+          return result;
         } catch (error) {
           console.log(error.response.data);
           setSignUpError(error.response.data);

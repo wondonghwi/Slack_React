@@ -42,10 +42,10 @@ const config: webpack.Configuration = {
           ],
           env: {
             development: {
-              plugins: [['@emotion',{sourceMap : true}],require.resolve('react-refresh/babel')],
+              plugins: [['@emotion', { sourceMap: true }], require.resolve('react-refresh/babel')],
             },
             production: {
-              plugins : ['@emotion'],
+              plugins: ['@emotion'],
             },
           },
         },
@@ -75,6 +75,13 @@ const config: webpack.Configuration = {
     historyApiFallback: true,
     port: 3090,
     publicPath: '/dist/',
+    //Cross-Origin 오류를 해결하기 위해 프론트에서 조치
+    proxy: {
+      '/api/': {
+        target: 'http://localhost:3095',
+        changeOrigin: true,
+      },
+    },
   },
 };
 

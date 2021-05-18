@@ -1,11 +1,11 @@
 import React, { FC, useCallback } from 'react';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 const Workspace: FC = ({ children }) => {
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate, mutate } = useSWR('http://localhost:3095/api/users', fetcher);
 
   const onLogout = useCallback(async () => {
     try {
@@ -13,7 +13,7 @@ const Workspace: FC = ({ children }) => {
         withCredentials: true,
       });
       console.log(result);
-      revalidate();
+      mutate(false, false);
     } catch (error) {
       console.log(error);
     }

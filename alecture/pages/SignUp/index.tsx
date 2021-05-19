@@ -70,7 +70,7 @@ const SignUp = () => {
   }
 
   if (data) {
-    return <Redirect to="/workspace/channel" />;
+    return <Redirect to="/workspace/slack_react/channel/일반" />;
   }
 
   return (

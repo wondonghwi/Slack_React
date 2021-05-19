@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import {
   Header,
   ProfileImg,
@@ -19,6 +19,7 @@ import {
   AddButton,
   WorkspaceModal,
 } from '@layouts/Workspace/styles';
+import loadable from '@loadable/component';
 import gravatar from 'gravatar';
 import Menu from '@components/Menu';
 import { IUser } from '@typings/db';
@@ -28,11 +29,10 @@ import Modal from '@components/Modal';
 import { toast } from 'react-toastify';
 import CreateChannelModal from '@components/CreateChannelModal';
 
-interface WorkspaceProps {
-  children: React.ReactNode;
-}
+const Channel = loadable(() => import('@pages/Channel'));
+const DirectMessage = loadable(() => import('@pages/DirectMessage'));
 
-const Workspace = ({ children }: WorkspaceProps) => {
+const Workspace = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
@@ -159,7 +159,7 @@ const Workspace = ({ children }: WorkspaceProps) => {
           <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
         </Workspaces>
         <Channels>
-          <WorkspaceName onClick={toggleWorkspaceModal}>Slack_React</WorkspaceName>
+          <WorkspaceName>Slack_React</WorkspaceName>
           <MenuScroll>
             <Menu show={showWorkspaceModal} onCloseModal={toggleWorkspaceModal} style={{ top: 95, left: 80 }}>
               <WorkspaceModal>
@@ -171,7 +171,12 @@ const Workspace = ({ children }: WorkspaceProps) => {
             </Menu>
           </MenuScroll>
         </Channels>
-        <Chats>{children}</Chats>
+        <Chats>
+          <Switch>
+            <Route path="/workspace/:workspace/channel/:channel" component={Channel} />
+            <Route path="/workspace/:workspace/dm/:id" component={DirectMessage} />
+          </Switch>
+        </Chats>
       </WorkspaceWrapper>
       <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
         <form onSubmit={onCreateWorkspace}>

@@ -1,6 +1,6 @@
 import useInput from '@hooks/useInput';
 import React, { useCallback, useState } from 'react';
-import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } from '@pages/SignUp/styles';
+import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages/SignUp/styles';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
@@ -37,13 +37,13 @@ const LogIn = () => {
   }
 
   if (data) {
-    return <Redirect to="/workspace/slack_react/channel/일반" />;
+    return <Redirect to="/workspace/sleact/channel/일반" />;
   }
 
   // console.log(error, userData);
   // if (!error && userData) {
   //   console.log('로그인됨', userData);
-  //   return <Redirect to="/workspace/slack_react/channel/일반" />;
+  //   return <Redirect to="/workspace/sleact/channel/일반" />;
   // }
 
   return (

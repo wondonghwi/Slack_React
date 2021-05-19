@@ -1,33 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import {
+  AddButton,
+  Channels,
+  Chats,
   Header,
+  LogOutButton,
+  MenuScroll,
   ProfileImg,
+  ProfileModal,
   RightMenu,
+  WorkspaceButton,
+  WorkspaceModal,
+  WorkspaceName,
   Workspaces,
   WorkspaceWrapper,
-  Channels,
-  WorkspaceName,
-  Chats,
-  MenuScroll,
-  ProfileModal,
-  LogOutButton,
-  WorkspaceButton,
-  AddButton,
-  WorkspaceModal,
 } from '@layouts/Workspace/styles';
 import loadable from '@loadable/component';
 import gravatar from 'gravatar';
 import Menu from '@components/Menu';
-import { IUser } from '@typings/db';
+import { IChannel, IUser } from '@typings/db';
 import { Button, Input, Label } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
 import { toast } from 'react-toastify';
 import CreateChannelModal from '@components/CreateChannelModal';
+import { useParams } from 'react-router';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -37,22 +38,21 @@ const Workspace = () => {
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
-  const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
+  const [newWorkspace, onChangeNewWorkspace, setNewWorkpsace] = useInput('');
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
+  const { workspace } = useParams<{ workspace: string }>();
   const { data: userData, error, revalidate, mutate } = useSWR<IUser | false>(
     'http://localhost:3095/api/users',
     fetcher,
     {
-      dedupingInterval: 2000,
+      dedupingInterval: 2000, // 2초
     },
   );
-
-  //TODO userData확인용 추후 삭제 예정
-  useEffect(() => {
-    console.log(userData);
-  }, []);
-
+  const { data: channelData } = useSWR<IChannel[]>(
+    userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,
+    fetcher,
+  );
   const onLogout = useCallback(async () => {
     try {
       const result = await axios.post('http://localhost:3095/api/users/logout', null, {
@@ -98,7 +98,7 @@ const Workspace = () => {
         .then(() => {
           revalidate();
           setShowCreateWorkspaceModal(false);
-          setNewWorkspace('');
+          setNewWorkpsace('');
           setNewUrl('');
         })
         .catch((error) => {
@@ -159,7 +159,7 @@ const Workspace = () => {
           <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
         </Workspaces>
         <Channels>
-          <WorkspaceName>Slack_React</WorkspaceName>
+          <WorkspaceName onClick={toggleWorkspaceModal}>Slack_React</WorkspaceName>
           <MenuScroll>
             <Menu show={showWorkspaceModal} onCloseModal={toggleWorkspaceModal} style={{ top: 95, left: 80 }}>
               <WorkspaceModal>
@@ -169,6 +169,9 @@ const Workspace = () => {
                 <button onClick={onLogout}>로그아웃</button>
               </WorkspaceModal>
             </Menu>
+            {channelData?.map((v, index) => (
+              <div key={index}>{v.name}</div>
+            ))}
           </MenuScroll>
         </Channels>
         <Chats>
@@ -191,7 +194,11 @@ const Workspace = () => {
           <Button type="submit">생성하기</Button>
         </form>
       </Modal>
-      <CreateChannelModal show={showCreateChannelModal} onCloseModal={onCloseModal} />
+      <CreateChannelModal
+        show={showCreateChannelModal}
+        onCloseModal={onCloseModal}
+        setShowCreateChannelModal={setShowCreateChannelModal}
+      />
     </div>
   );
 };

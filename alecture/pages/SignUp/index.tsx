@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Error, Success, Label, Input, LinkContainer, Button, Header } from './styles';
+import { Button, Error, Form, Header, Input, Label, LinkContainer, Success } from './styles';
 import axios from 'axios';
 import useInput from '@hooks/useInput';
 import { Link, Redirect } from 'react-router-dom';
@@ -70,7 +70,7 @@ const SignUp = () => {
   }
 
   if (data) {
-    return <Redirect to="/workspace/slack_react/channel/일반" />;
+    return <Redirect to="/workspace/sleact/channel/일반" />;
   }
 
   return (

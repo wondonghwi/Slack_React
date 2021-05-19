@@ -1,12 +1,15 @@
 import React from 'react';
+import { Container, Header } from '@pages/Channel/styles';
 import Workspace from '@layouts/Workspace';
 
-const Index = () => {
+const Channel = () => {
   return (
     <Workspace>
-      <div>로그인을 축하드려요!</div>
+      <Container>
+        <Header>채널</Header>
+      </Container>
     </Workspace>
   );
 };
 
-export default Index;
+export default Channel;

@@ -1,3 +1,4 @@
+//백엔드에서 타입을 줬다는 가정
 export interface IUser {
   id: number;
   nickname: string;

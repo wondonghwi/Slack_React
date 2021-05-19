@@ -5,7 +5,7 @@ interface MenuProps {
   children: React.ReactNode;
   style: CSSProperties;
   show: boolean;
-  onCloseModal: () => void;
+  onCloseModal: (e: any) => void;
   closeButton?: boolean;
 }
 
@@ -13,6 +13,8 @@ const Menu = ({ children, style, show, onCloseModal, closeButton }: MenuProps) =
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);
+
+  if (!show) return null;
 
   return (
     <CreateMenu onClick={onCloseModal}>

@@ -26,7 +26,8 @@ import { IChannel, IUser } from '@typings/db';
 import { Button, Input, Label } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CreateChannelModal from '@components/CreateChannelModal';
 import { useParams } from 'react-router';
 import InviteWorkspaceModal from '@components/InviteWorkspaceModal';
@@ -104,10 +105,27 @@ const Workspace = () => {
           setShowCreateWorkspaceModal(false);
           setNewWorkpsace('');
           setNewUrl('');
+          toast.success('생성에 성공했습니다.', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         })
         .catch((error) => {
-          console.dir(error);
-          toast.error(error.response?.data, { position: 'bottom-center' });
+          console.dir(error.response);
+          toast.error('생성에 실패했습니다.', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
     },
     [newWorkspace, newUrl],
@@ -219,6 +237,7 @@ const Workspace = () => {
         onCloseModal={onCloseModal}
         setShowInviteChannelModal={setShowInviteChannelModal}
       />
+      <ToastContainer />
     </div>
   );
 };

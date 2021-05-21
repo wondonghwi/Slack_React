@@ -6,7 +6,8 @@ import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
 
 interface CreateChannelModalProps {
@@ -42,10 +43,27 @@ const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }: C
           setShowCreateChannelModal(false);
           revalidateChannel();
           setNewChannel('');
+          toast.success('생성에 성공했습니다.', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         })
         .catch((error) => {
           console.dir(error);
-          toast.error(error.response?.data, { position: 'bottom-center' });
+          toast.error('생성에 실패했습니다.', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
     },
     [newChannel],
@@ -60,6 +78,7 @@ const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }: C
         </Label>
         <Button type="submit">생성하기</Button>
       </form>
+      <ToastContainer />
     </Modal>
   );
 };

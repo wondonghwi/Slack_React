@@ -1,10 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-const fetcher = (url: string) =>
-  axios
-    .get(url, {
+const fetcher = async (url: string) => {
+  try {
+    const response: AxiosResponse = await axios.get(url, {
       withCredentials: true,
-    })
-    .then((response) => response.data);
-
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export default fetcher;

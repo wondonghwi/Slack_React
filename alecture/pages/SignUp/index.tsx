@@ -19,7 +19,7 @@ const SignUp = () => {
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   const onChangePassword = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value);
       setMismatchError(e.target.value !== passwordCheck);
     },
@@ -27,7 +27,7 @@ const SignUp = () => {
   );
 
   const onChangePasswordCheck = useCallback(
-    (e) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setPasswordCheck(e.target.value);
       setMismatchError(e.target.value !== password);
     },
@@ -35,7 +35,7 @@ const SignUp = () => {
   );
 
   const onSubmit = useCallback(
-    async (e) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
       if (!mismatchError && nickname) {
         //비밀번호를 아에 입력을 안했을경우
@@ -56,7 +56,7 @@ const SignUp = () => {
           setSignUpSuccess(true);
           return result;
         } catch (error) {
-          console.log(error.response.data);
+          console.log(error);
           setSignUpError(error.response.data);
         }
       }

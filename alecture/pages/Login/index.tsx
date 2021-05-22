@@ -15,8 +15,9 @@ const LogIn = () => {
     async (e) => {
       e.preventDefault();
       setLogInError(false);
+      // 백엔드에서 생성산 "쿠키"를 브라우저에 전달해주기 위해서 withCredentials 추가
       try {
-        const result = await axios.post(
+        const response = await axios.post(
           'http://localhost:3095/api/users/login',
           { email, password },
           {

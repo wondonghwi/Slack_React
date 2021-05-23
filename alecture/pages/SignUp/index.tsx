@@ -48,7 +48,7 @@ const SignUp = () => {
         setSignUpSuccess(false);
         setSignUpError('');
         try {
-          const result = await axios.post('http://localhost:3095/api/users', {
+          const result = await axios.post('/api/users', {
             email,
             nickname,
             password,

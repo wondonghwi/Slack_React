@@ -20,13 +20,14 @@ const InviteChannelModal = ({ show, onCloseModal, setShowInviteChannelModal }: I
 
   //TODO 해당 channel 부르는 부분 undefined 수정필요
   useEffect(() => {
+    console.log(workspace);
     console.log(channel);
   }, [channel]);
 
   const [newMember, onChangeNewMember, setNewMember] = useInput('');
-  const { data: userData } = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
+  const { data: userData } = useSWR<IUser>('/api/users', fetcher);
   const { revalidate: revalidateMembers } = useSWR<IUser[]>(
-    userData && channel ? `http://localhost:3095/api/workspaces/${workspace}/channels/${channel}/members` : null,
+    userData && channel ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
     fetcher,
   );
 
@@ -37,7 +38,7 @@ const InviteChannelModal = ({ show, onCloseModal, setShowInviteChannelModal }: I
         return;
       }
       axios
-        .post(`http://localhost:3095/api/workspaces/${workspace}/channels/${channel}/members`, {
+        .post(`/api/workspaces/${workspace}/channels/${channel}/members`, {
           email: newMember,
         })
         .then(() => {

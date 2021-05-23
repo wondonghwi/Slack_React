@@ -76,12 +76,12 @@ const config: webpack.Configuration = {
     port: 3090,
     publicPath: '/dist/',
     //Cross-Origin 오류를 해결하기 위해 프론트에서 조치
-    // proxy: {
-    //   '/api/': {
-    //     target: 'http://localhost:3095',
-    //     changeOrigin: true,
-    //   },
-    // },
+    proxy: {
+      '/api/': {
+        target: 'http://localhost:3095',
+        changeOrigin: true,
+      },
+    },
   },
 };
 

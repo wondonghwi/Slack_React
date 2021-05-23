@@ -17,9 +17,9 @@ interface InviteWorkspaceModalProps {
 const InviteWorkspaceModal = ({ show, onCloseModal, setShowInviteWorkspaceModal }: InviteWorkspaceModalProps) => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
   const [newMember, onChangeNewMember, setNewMember] = useInput('');
-  const { data: userData } = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
+  const { data: userData } = useSWR<IUser>('/api/users', fetcher);
   const { revalidate: revalidateMember } = useSWR<IChannel[]>(
-    userData ? `http://localhost:3095/api/workspaces/${workspace}/members` : null,
+    userData ? `/api/workspaces/${workspace}/members` : null,
     fetcher,
   );
 
@@ -30,7 +30,7 @@ const InviteWorkspaceModal = ({ show, onCloseModal, setShowInviteWorkspaceModal 
         return;
       }
       axios
-        .post(`http://localhost:3095/api/workspaces/${workspace}/members`, {
+        .post(`/api/workspaces/${workspace}/members`, {
           email: newMember,
         })
         .then((response) => {

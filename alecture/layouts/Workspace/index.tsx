@@ -59,7 +59,6 @@ const Workspace = () => {
       const result = await axios.post('/api/users/logout', null, {
         withCredentials: true,
       });
-      console.log(result);
       mutate(false, false);
     } catch (error) {
       console.log(error);
@@ -113,7 +112,7 @@ const Workspace = () => {
         })
         .catch((error) => {
           console.dir(error.response);
-          toast.error('생성에 실패했습니다.', {
+          toast.error('실패해버렸습니다.', {
             position: 'bottom-center',
             autoClose: 2000,
             hideProgressBar: false,
@@ -193,11 +192,8 @@ const Workspace = () => {
                 <button onClick={onLogout}>로그아웃</button>
               </WorkspaceModal>
             </Menu>
-            {/*<ChannelList userData={userData} />*/}
-            <DMList userData={userData} />
-            {channelData?.map((v, index) => (
-              <div key={index}>{v.name}</div>
-            ))}
+            <ChannelList />
+            <DMList />
           </MenuScroll>
         </Channels>
         <Chats>

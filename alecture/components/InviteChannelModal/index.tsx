@@ -4,9 +4,9 @@ import { Button, Input, Label } from '@pages/SignUp/styles';
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
 
@@ -19,10 +19,10 @@ const InviteChannelModal = ({ show, onCloseModal, setShowInviteChannelModal }: I
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
 
   //TODO 해당 channel 부르는 부분 undefined 수정필요
-  useEffect(() => {
-    console.log(workspace);
-    console.log(channel);
-  }, [channel]);
+  // useEffect(() => {
+  //   console.log(workspace);
+  //   console.log(channel);
+  // }, [channel, workspace]);
 
   const [newMember, onChangeNewMember, setNewMember] = useInput('');
   const { data: userData } = useSWR<IUser>('/api/users', fetcher);
@@ -68,7 +68,7 @@ const InviteChannelModal = ({ show, onCloseModal, setShowInviteChannelModal }: I
           });
         });
     },
-    [newMember],
+    [channel, newMember, revalidateMembers, setNewMember, setShowInviteChannelModal, workspace],
   );
 
   return (

@@ -8,6 +8,7 @@ import fetcher from '@utils/fetcher';
 
 const LogIn = () => {
   const { data, error, revalidate, mutate } = useSWR('/api/users', fetcher);
+  console.log(data);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -25,16 +26,16 @@ const LogIn = () => {
           },
         );
         revalidate();
+        return response.data;
       } catch (error) {
-        setLogInError(error.response?.data?.statusCode === 401);
-      } finally {
+        setLogInError(true);
       }
     },
-    [email, password],
+    [email, password, revalidate],
   );
 
   if (data === undefined) {
-    return <div>로딩중...</div>;
+    return <div>로딩중 입니다...</div>;
   }
 
   if (data) {
@@ -59,9 +60,7 @@ const LogIn = () => {
         </Label>
         <Label id="password-label">
           <span>비밀번호</span>
-          <div>
-            <Input type="password" id="password" name="password" value={password} onChange={onChangePassword} />
-          </div>
+          <Input type="password" id="password" name="password" value={password} onChange={onChangePassword} />
           {logInError && <Error>이메일과 비밀번호 조합이 일치하지 않습니다.</Error>}
         </Label>
         <Button type="submit">로그인</Button>

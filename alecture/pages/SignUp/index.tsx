@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import fetcher from '../../utils/fetcher';
 
 const SignUp = () => {
-  const { data, error, revalidate } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, revalidate } = useSWR('/api/users', fetcher);
 
   //임시로 오류안나게 style확인을 위한 setting
   const [email, onChangeEmail] = useInput('');
@@ -23,7 +23,7 @@ const SignUp = () => {
       setPassword(e.target.value);
       setMismatchError(e.target.value !== passwordCheck);
     },
-    [passwordCheck],
+    [passwordCheck, setPassword],
   );
 
   const onChangePasswordCheck = useCallback(
@@ -31,7 +31,7 @@ const SignUp = () => {
       setPasswordCheck(e.target.value);
       setMismatchError(e.target.value !== password);
     },
-    [password],
+    [password, setPasswordCheck],
   );
 
   const onSubmit = useCallback(
@@ -43,7 +43,6 @@ const SignUp = () => {
           alert('비밀번호를 입력해주세요');
           return;
         }
-        console.log('서버로 회원가입 하기');
         //비동기요청 보내기전 state값 초기화 진행 -> 이전요청에 대한 결과를 남아있지않게 하기위해서
         setSignUpSuccess(false);
         setSignUpError('');
@@ -60,9 +59,8 @@ const SignUp = () => {
           setSignUpError(error.response.data);
         }
       }
-      console.log(email, nickname, password, passwordCheck);
     },
-    [email, nickname, password, passwordCheck],
+    [email, mismatchError, nickname, password],
   );
 
   if (data === undefined) {

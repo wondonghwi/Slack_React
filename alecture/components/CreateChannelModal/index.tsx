@@ -66,7 +66,7 @@ const CreateChannelModal = ({ show, onCloseModal, setShowCreateChannelModal }: C
           });
         });
     },
-    [newChannel],
+    [newChannel, revalidateChannel, setNewChannel, setShowCreateChannelModal, workspace],
   );
 
   return (

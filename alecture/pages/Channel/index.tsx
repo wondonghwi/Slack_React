@@ -6,10 +6,13 @@ import ChatList from '@components/ChatList';
 
 const Channel = () => {
   const [chat, onChangeChat, setChat] = useInput('');
-  const onSubmitForm = useCallback((e) => {
-    e.preventDefault();
-    setChat('');
-  }, []);
+  const onSubmitForm = useCallback(
+    (e) => {
+      e.preventDefault();
+      setChat('');
+    },
+    [setChat],
+  );
 
   return (
     <Container>

@@ -57,10 +57,11 @@ const Workspace = () => {
 
   const onLogout = useCallback(async () => {
     try {
-      const result = await axios.post('/api/users/logout', null, {
+      const response = await axios.post('/api/users/logout', null, {
         withCredentials: true,
       });
       mutate(false, false);
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -124,7 +125,7 @@ const Workspace = () => {
           });
         });
     },
-    [newWorkspace, newUrl],
+    [newWorkspace, newUrl, revalidate, setNewWorkpsace, setNewUrl],
   );
 
   const onCloseModal = useCallback(() => {

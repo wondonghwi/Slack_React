@@ -54,6 +54,7 @@ const Workspace = () => {
   });
   const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
   const { data: memberData } = useSWR<IUser[]>(userData ? `/api/workspaces/${workspace}/members` : null, fetcher);
+
   const onLogout = useCallback(async () => {
     try {
       const result = await axios.post('/api/users/logout', null, {
@@ -63,7 +64,7 @@ const Workspace = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [mutate]);
 
   const onCloseUserProfile = useCallback((e) => {
     e.stopPropagation();

@@ -29,5 +29,11 @@
     "sequelize": "^6.5.0",
     "sequelize-cli": "^6.2.0",
     "socket.io": "^2.4.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "eslint": "^7.27.0",
+    "typescript": "^4.2.4"
   }
 }

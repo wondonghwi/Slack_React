@@ -7,16 +7,37 @@ import fetcher from '@utils/fetcher';
 import ChatList from '@components/ChatList';
 import ChatBox from '@components/ChatBox';
 import useInput from '@hooks/useInput';
+import axios from 'axios';
+import { IDM } from '@typings/db';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
   const { data: userData } = useSWR(`/api/workspaces/${workspace}/users/${id}`, fetcher);
   const { data: myData } = useSWR(`/api/users`, fetcher);
-  const [chat, onChangeChat] = useInput('');
+  const [chat, onChangeChat, setChat] = useInput('');
+  const { data: chatData, mutate: mutateChat } = useSWR<IDM[]>(
+    `/api/workspaces/${workspace}/dms/${id}chats?perPage=20=&page=1`,
+    fetcher,
+  );
 
-  const onSubmitForm = useCallback((e) => {
-    e.preventDefault();
-  }, []);
+  const onSubmitForm = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (chat?.trim()) {
+        axios
+          .post(`/api/workspaces/${workspace}/dms/${id}/chats`, {
+            content: chat,
+          })
+          .then(() => {
+            setChat('');
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    [chat],
+  );
 
   if (!userData || !myData) return null;
 

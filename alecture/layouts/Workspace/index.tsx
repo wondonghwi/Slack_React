@@ -58,10 +58,17 @@ const Workspace = () => {
   const [socket, disconnect] = useSocket(workspace);
 
   useEffect(() => {
-    socket.on('message');
-    socket.emit();
-    disconnect();
-  }, [disconnect, socket]);
+    if (channelData && userData && socket) {
+      console.log(socket);
+      socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
+    }
+  }, [channelData, socket, userData]);
+
+  useEffect(() => {
+    return () => {
+      disconnect();
+    };
+  }, [disconnect, workspace]);
 
   const onLogout = useCallback(async () => {
     try {

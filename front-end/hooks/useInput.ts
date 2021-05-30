@@ -6,8 +6,8 @@ type ReturnTypes<T = any> = [T, (e: React.ChangeEvent<HTMLInputElement>) => void
 //useInput 커스텀 훅 작성
 const useInput = <T>(initialData: T): ReturnTypes => {
   const [value, setValue] = useState(initialData);
-  const handler = useCallback((e: any) => {
-    setValue(e.target.value);
+  const handler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((e.target.value as unknown) as T);
   }, []);
   return [value, handler, setValue];
 };

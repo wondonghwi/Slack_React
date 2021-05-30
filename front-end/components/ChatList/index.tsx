@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { ChatZone, Section, StickyHeader } from '@components/ChatList/styles';
 import { IDM } from '@typings/db';
 import Chat from '@components/Chat';
@@ -6,16 +6,28 @@ import Scrollbars from 'react-custom-scrollbars';
 
 interface ChatSectionsProps {
   chatSections: { [key: string]: IDM[] };
+  setSize: (f: (size: number) => number) => Promise<IDM[][] | undefined>;
+  isEmpty: boolean;
+  isReachingEnd: boolean;
 }
 
-const ChatList = ({ chatSections }: ChatSectionsProps) => {
-  const scrollRef = useRef(null);
-  const onScroll = useCallback(() => {}, []);
+const ChatList = forwardRef<Scrollbars, ChatSectionsProps>(({ chatSections, setSize, isEmpty, isReachingEnd }, ref) => {
+  const onScroll = useCallback(
+    (values) => {
+      if (values.scrollTop === 0) {
+        console.log('가장 위');
+        setSize((prevSize) => prevSize + 1).then(() => {
+          //스크롤 위치 유지
+        });
+      }
+    },
+    [setSize],
+  );
 
   return (
     <>
       <ChatZone>
-        <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
+        <Scrollbars autoHide ref={ref} onScrollFrame={onScroll}>
           {Object.entries(chatSections).map(([date, chats]) => {
             return (
               <Section className={`section-${date}`} key={date}>
@@ -32,6 +44,6 @@ const ChatList = ({ chatSections }: ChatSectionsProps) => {
       </ChatZone>
     </>
   );
-};
+});
 
 export default ChatList;

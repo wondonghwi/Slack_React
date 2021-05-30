@@ -1,24 +1,33 @@
 import React, { useCallback, useRef } from 'react';
-import { ChatZone } from '@components/ChatList/styles';
+import { ChatZone, Section, StickyHeader } from '@components/ChatList/styles';
 import { IDM } from '@typings/db';
 import Chat from '@components/Chat';
 import Scrollbars from 'react-custom-scrollbars';
 
-interface ChatListProps {
-  chatData?: IDM[];
+interface ChatSectionsProps {
+  chatSections: { [key: string]: IDM[] };
 }
 
-const ChatList = ({ chatData }: ChatListProps) => {
-  const scrollbarRef = useRef(null);
+const ChatList = ({ chatSections }: ChatSectionsProps) => {
+  const scrollRef = useRef(null);
   const onScroll = useCallback(() => {}, []);
 
   return (
     <>
       <ChatZone>
-        <Scrollbars autoHide ref={scrollbarRef} onScrollFrame={onScroll}>
-          {chatData?.map((chat) => (
-            <Chat key={chat.id} data={chat} />
-          ))}
+        <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
+          {Object.entries(chatSections).map(([date, chats]) => {
+            return (
+              <Section className={`section-${date}`} key={date}>
+                <StickyHeader>
+                  <button>{date}</button>
+                </StickyHeader>
+                {chats.map((chat) => (
+                  <Chat key={chat.id} data={chat} />
+                ))}
+              </Section>
+            );
+          })}
         </Scrollbars>
       </ChatZone>
     </>

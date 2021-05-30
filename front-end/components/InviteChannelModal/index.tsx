@@ -18,12 +18,6 @@ interface InviteChannelModalProps {
 const InviteChannelModal = ({ show, onCloseModal, setShowInviteChannelModal }: InviteChannelModalProps) => {
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
 
-  //TODO 해당 channel 부르는 부분 undefined 수정필요
-  // useEffect(() => {
-  //   console.log(workspace);
-  //   console.log(channel);
-  // }, [channel, workspace]);
-
   const [newMember, onChangeNewMember, setNewMember] = useInput('');
   const { data: userData } = useSWR<IUser>('/api/users', fetcher);
   const { revalidate: revalidateMembers } = useSWR<IUser[]>(

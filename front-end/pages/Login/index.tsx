@@ -8,7 +8,6 @@ import fetcher from '@utils/fetcher';
 
 const LogIn = () => {
   const { data, error, revalidate, mutate } = useSWR('/api/users', fetcher);
-  console.log(data);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');

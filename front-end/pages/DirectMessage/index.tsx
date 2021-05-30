@@ -11,6 +11,7 @@ import axios from 'axios';
 import { IDM } from '@typings/db';
 import makeSection from '@utils/makeSection';
 import Scrollbars from 'react-custom-scrollbars';
+import useSocket from '@hooks/useSocket';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -21,6 +22,9 @@ const DirectMessage = () => {
     (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
+
+  const [socket] = useSocket(workspace);
+
   //TODO 인피니티 스크롤 구현시 필요사항
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
@@ -63,6 +67,37 @@ const DirectMessage = () => {
     },
     [chat, chatData, id, mutateChat, myData, revalidate, setChat, userData, workspace],
   );
+
+  const onMessage = useCallback(
+    (data: IDM) => {
+      // id는 상대방 아이디
+      if (data.SenderId === Number(id) && myData.id !== Number(id)) {
+        mutateChat((chatData) => {
+          chatData?.[0].unshift(data);
+          return chatData;
+        }, false).then(() => {
+          if (scrollRef.current) {
+            if (
+              scrollRef.current.getScrollHeight() <
+              scrollRef.current.getClientHeight() + scrollRef.current.getScrollTop() + 150
+            ) {
+              setTimeout(() => {
+                scrollRef.current?.scrollToBottom();
+              }, 50);
+            }
+          }
+        });
+      }
+    },
+    [id, mutateChat, myData.id],
+  );
+
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [socket, onMessage]);
 
   // 로딩시 스크롤바 가장 아래로
   useEffect(() => {

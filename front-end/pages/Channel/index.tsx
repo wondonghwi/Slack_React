@@ -122,7 +122,6 @@ const Channel = () => {
         // Use DataTransferItemList interface to access the file(s)
         for (let i = 0; i < e.target.files.length; i++) {
           const file = e.target.files[i].getAsFile();
-          console.log('... file[' + i + '].name = ' + file.name);
           formData.append('image', file);
         }
       }

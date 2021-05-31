@@ -15,7 +15,6 @@ const ChatList = ({ chatSections, setSize, isReachingEnd, scrollRef }: ChatSecti
   const onScroll = useCallback(
     (values) => {
       if (values.scrollTop === 0) {
-        console.log('가장 위');
         setSize((prevSize) => prevSize + 1).then(() => {
           //스크롤 위치 유지
           if (scrollRef?.current) {

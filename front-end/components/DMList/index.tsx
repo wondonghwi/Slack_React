@@ -36,7 +36,6 @@ const DMList = () => {
   }, []);
 
   const onMessage = (data: IDM) => {
-    console.log('dm왔다', data);
     setCountList((list) => {
       return {
         ...list,

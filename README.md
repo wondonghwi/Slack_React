@@ -27,5 +27,7 @@
 >- axios : 서버호출시 이용
 
 <hr/>
+(https://user-images.githubusercontent.com/55338435/120221151-d9bf7780-c278-11eb-9e53-2b5c5f052ec8.png)
 <br/>
-[![Watch the video]](https://user-images.githubusercontent.com/55338435/120220572-e8f1f580-c277-11eb-8be0-ce15ef784567.mp4)
+아래 링크를 클릭하면 프로젝트 동영상이 나옵니다.!
+(https://user-images.githubusercontent.com/55338435/120220572-e8f1f580-c277-11eb-8be0-ce15ef784567.mp4)

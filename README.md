@@ -28,4 +28,4 @@
 
 <hr/>
 <br/>
-[![Watch the video](https://user-images.githubusercontent.com/55338435/120220572-e8f1f580-c277-11eb-8be0-ce15ef784567.mp4)
+[![Watch the video](https://user-images.githubusercontent.com/55338435/120221151-d9bf7780-c278-11eb-9e53-2b5c5f052ec8.png)(https://user-images.githubusercontent.com/55338435/120220572-e8f1f580-c277-11eb-8be0-ce15ef784567.mp4)]

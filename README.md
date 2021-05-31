@@ -26,7 +26,8 @@
 >- react-router-dom : 페이지 이동
 >- axios : 서버호출시 이용
 
+아래를 클릭하면 프로젝트 동영상이 나옵니다.!
+
 [![영상을 보기위해 클릭해주세요](images/thumbnail.png)](https://user-images.githubusercontent.com/55338435/120220572-e8f1f580-c277-11eb-8be0-ce15ef784567.mp4)
 
-아래 링크를 클릭하면 프로젝트 동영상이 나옵니다.!
 

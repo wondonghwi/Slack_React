@@ -25,3 +25,8 @@
 >- dayjs : 날짜 변환
 >- react-router-dom : 페이지 이동
 >- axios : 서버호출시 이용
+
+<hr/>
+<b>아래 동영상으로 내용 확인해주세요!</b>
+https://user-images.githubusercontent.com/55338435/120220572-e8f1f580-c277-11eb-8be0-ce15ef784567.mp4
+

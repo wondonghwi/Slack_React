@@ -116,22 +116,6 @@ const Channel = () => {
     setShowInviteChannelModal(false);
   }, []);
 
-  const onChangeFile = useCallback(
-    (e) => {
-      const formData = new FormData();
-      if (e.target.files) {
-        // Use DataTransferItemList interface to access the file(s)
-        for (let i = 0; i < e.target.files.length; i++) {
-          const file = e.target.files[i].getAsFile();
-          console.log('... file[' + i + '].name = ' + file.name);
-          formData.append('image', file);
-        }
-      }
-      axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {});
-    },
-    [channel, workspace],
-  );
-
   const onDrop = useCallback(
     (e) => {
       e.preventDefault();

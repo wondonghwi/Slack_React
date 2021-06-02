@@ -6,6 +6,7 @@
 >- TypeScript + React를 이용한 개발
 >- SWR 사용 경험 (Redux를 사용하지 않고 SWR을 사용한 개발)
 >- socket.io를 이용한 개발
+>- Drag & Drop을 이용한 이미지 첨부기능 개발
 
 > 기술스택
 >- TypeScript
